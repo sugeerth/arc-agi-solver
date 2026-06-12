@@ -1,0 +1,146 @@
+{
+  "n_returned": 23,
+  "n_unique_tasks": 23,
+  "n_solved": 22,
+  "solved_ids": [
+    "00dbd492",
+    "03560426",
+    "0692e18c",
+    "08573cc6",
+    "0a2355a6",
+    "0becf7df",
+    "0c786b71",
+    "11e1fe23",
+    "12422b43",
+    "12eac192",
+    "137f0df0",
+    "15696249",
+    "17cae0c1",
+    "1a2e2828",
+    "2072aba6",
+    "2685904e",
+    "27a77e38",
+    "27f8ce4f",
+    "292dd178",
+    "2b01abd0",
+    "2c737e39",
+    "310f3251"
+  ],
+  "verifications": [
+    {
+      "task_id": "00dbd492",
+      "status": "solved",
+      "agent": "agent_0"
+    },
+    {
+      "task_id": "03560426",
+      "status": "solved",
+      "agent": "agent_0"
+    },
+    {
+      "task_id": "0692e18c",
+      "status": "solved",
+      "agent": "agent_0"
+    },
+    {
+      "task_id": "08573cc6",
+      "status": "solved",
+      "agent": "agent_0"
+    },
+    {
+      "task_id": "0a2355a6",
+      "status": "solved",
+      "agent": "agent_0"
+    },
+    {
+      "task_id": "0becf7df",
+      "status": "solved",
+      "agent": "agent_0"
+    },
+    {
+      "task_id": "0c786b71",
+      "status": "solved",
+      "agent": "agent_1"
+    },
+    {
+      "task_id": "11e1fe23",
+      "status": "solved",
+      "agent": "agent_1"
+    },
+    {
+      "task_id": "12422b43",
+      "status": "solved",
+      "agent": "agent_1"
+    },
+    {
+      "task_id": "12eac192",
+      "status": "solved",
+      "agent": "agent_1"
+    },
+    {
+      "task_id": "137f0df0",
+      "status": "solved",
+      "agent": "agent_1"
+    },
+    {
+      "task_id": "15696249",
+      "status": "solved",
+      "agent": "agent_1"
+    },
+    {
+      "task_id": "17cae0c1",
+      "status": "solved",
+      "agent": "agent_2"
+    },
+    {
+      "task_id": "1a2e2828",
+      "status": "solved",
+      "agent": "agent_2"
+    },
+    {
+      "task_id": "2072aba6",
+      "status": "solved",
+      "agent": "agent_2"
+    },
+    {
+      "task_id": "2685904e",
+      "status": "solved",
+      "agent": "agent_2"
+    },
+    {
+      "task_id": "27a77e38",
+      "status": "solved",
+      "agent": "agent_2"
+    },
+    {
+      "task_id": "27f8ce4f",
+      "status": "solved",
+      "agent": "agent_3"
+    },
+    {
+      "task_id": "292dd178",
+      "status": "solved",
+      "agent": "agent_3"
+    },
+    {
+      "task_id": "2a5f8217",
+      "status": "train_err:NameError: name 'frozenset' is not defined",
+      "agent": "agent_3"
+    },
+    {
+      "task_id": "2b01abd0",
+      "status": "solved",
+      "agent": "agent_3"
+    },
+    {
+      "task_id": "2c737e39",
+      "status": "solved",
+      "agent": "agent_3"
+    },
+    {
+      "task_id": "310f3251",
+      "status": "solved",
+      "agent": "agent_3"
+    }
+  ]
+}

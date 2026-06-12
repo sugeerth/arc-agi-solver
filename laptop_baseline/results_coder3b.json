@@ -1,0 +1,291 @@
+{
+  "model": "Qwen/Qwen2.5-Coder-3B-Instruct",
+  "n": 20,
+  "max_tries": 2,
+  "correct": 0,
+  "accuracy": 0.0,
+  "passed_train": 0,
+  "passed_train_pct": 0.0,
+  "total_secs": 2963.0,
+  "results": [
+    {
+      "task": "00576224",
+      "status": "failed_train",
+      "correct": false,
+      "pred_shape": [
+        2,
+        2
+      ],
+      "truth_shape": [
+        6,
+        6
+      ],
+      "n_attempts": 2,
+      "secs": 12.6
+    },
+    {
+      "task": "009d5c81",
+      "status": "failed_train",
+      "correct": false,
+      "pred_shape": null,
+      "truth_shape": [
+        14,
+        14
+      ],
+      "n_attempts": 2,
+      "secs": 128.4
+    },
+    {
+      "task": "00dbd492",
+      "status": "failed_train",
+      "correct": false,
+      "pred_shape": [
+        20,
+        20
+      ],
+      "truth_shape": [
+        20,
+        20
+      ],
+      "n_attempts": 2,
+      "secs": 36.0
+    },
+    {
+      "task": "03560426",
+      "status": "failed_train",
+      "correct": false,
+      "pred_shape": [
+        10,
+        10
+      ],
+      "truth_shape": [
+        10,
+        10
+      ],
+      "n_attempts": 2,
+      "secs": 27.1
+    },
+    {
+      "task": "05a7bcf2",
+      "status": "no_code",
+      "correct": false,
+      "pred_shape": null,
+      "truth_shape": [
+        30,
+        30
+      ],
+      "n_attempts": 2,
+      "secs": 511.0
+    },
+    {
+      "task": "0607ce86",
+      "status": "no_code",
+      "correct": false,
+      "pred_shape": null,
+      "truth_shape": [
+        24,
+        22
+      ],
+      "n_attempts": 2,
+      "secs": 325.5
+    },
+    {
+      "task": "0692e18c",
+      "status": "failed_train",
+      "correct": false,
+      "pred_shape": [
+        3,
+        3
+      ],
+      "truth_shape": [
+        9,
+        9
+      ],
+      "n_attempts": 2,
+      "secs": 46.6
+    },
+    {
+      "task": "070dd51e",
+      "status": "failed_train",
+      "correct": false,
+      "pred_shape": null,
+      "truth_shape": [
+        20,
+        20
+      ],
+      "n_attempts": 2,
+      "secs": 116.9
+    },
+    {
+      "task": "08573cc6",
+      "status": "failed_train",
+      "correct": false,
+      "pred_shape": [
+        13,
+        13
+      ],
+      "truth_shape": [
+        13,
+        13
+      ],
+      "n_attempts": 2,
+      "secs": 52.7
+    },
+    {
+      "task": "0934a4d8",
+      "status": "no_code",
+      "correct": false,
+      "pred_shape": null,
+      "truth_shape": [
+        9,
+        3
+      ],
+      "n_attempts": 2,
+      "secs": 532.2
+    },
+    {
+      "task": "09c534e7",
+      "status": "no_code",
+      "correct": false,
+      "pred_shape": null,
+      "truth_shape": [
+        30,
+        30
+      ],
+      "n_attempts": 2,
+      "secs": 505.7
+    },
+    {
+      "task": "0a1d4ef5",
+      "status": "no_code",
+      "correct": false,
+      "pred_shape": null,
+      "truth_shape": [
+        4,
+        3
+      ],
+      "n_attempts": 2,
+      "secs": 328.2
+    },
+    {
+      "task": "0a2355a6",
+      "status": "failed_train",
+      "correct": false,
+      "pred_shape": [
+        17,
+        15
+      ],
+      "truth_shape": [
+        15,
+        17
+      ],
+      "n_attempts": 2,
+      "secs": 68.0
+    },
+    {
+      "task": "0b17323b",
+      "status": "failed_train",
+      "correct": false,
+      "pred_shape": [
+        15,
+        15
+      ],
+      "truth_shape": [
+        15,
+        15
+      ],
+      "n_attempts": 2,
+      "secs": 51.5
+    },
+    {
+      "task": "0bb8deee",
+      "status": "failed_train",
+      "correct": false,
+      "pred_shape": [
+        13,
+        14
+      ],
+      "truth_shape": [
+        6,
+        6
+      ],
+      "n_attempts": 2,
+      "secs": 34.4
+    },
+    {
+      "task": "0becf7df",
+      "status": "failed_train",
+      "correct": false,
+      "pred_shape": [
+        10,
+        10
+      ],
+      "truth_shape": [
+        10,
+        10
+      ],
+      "n_attempts": 2,
+      "secs": 29.1
+    },
+    {
+      "task": "0c786b71",
+      "status": "failed_train",
+      "correct": false,
+      "pred_shape": [
+        4,
+        3
+      ],
+      "truth_shape": [
+        6,
+        8
+      ],
+      "n_attempts": 2,
+      "secs": 21.2
+    },
+    {
+      "task": "0c9aba6e",
+      "status": "failed_train",
+      "correct": false,
+      "pred_shape": [
+        4,
+        13
+      ],
+      "truth_shape": [
+        6,
+        4
+      ],
+      "n_attempts": 2,
+      "secs": 29.6
+    },
+    {
+      "task": "0d87d2a6",
+      "status": "failed_train",
+      "correct": false,
+      "pred_shape": [
+        25,
+        23
+      ],
+      "truth_shape": [
+        23,
+        25
+      ],
+      "n_attempts": 2,
+      "secs": 54.6
+    },
+    {
+      "task": "0e671a1a",
+      "status": "failed_train",
+      "correct": false,
+      "pred_shape": [
+        13,
+        13
+      ],
+      "truth_shape": [
+        13,
+        13
+      ],
+      "n_attempts": 2,
+      "secs": 51.8
+    }
+  ]
+}

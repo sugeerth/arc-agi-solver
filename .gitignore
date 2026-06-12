@@ -1,0 +1,25 @@
+# Python / caches
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+.DS_Store
+
+# Zip bundles (rebuildable via make_*.py / _build_notebooks.py)
+*.zip
+
+# Model weights & heavy tokenizer artifacts (>100MB or regenerable from base model)
+*.safetensors
+*.npz
+*.ckpt
+arc_adapter_dl/tokenizer.json
+arc_adapter_dl/vocab.json
+arc_adapter_dl/merges.txt
+arc_adapter_dl/training_args.bin
+
+# Local training run outputs (checkpoints + tensorboard event files)
+laptop_baseline/runs/
+
+# Third-party ARC-AGI dataset copy — clone from upstream instead:
+#   git clone https://github.com/fchollet/ARC-AGI laptop_baseline/ARC-AGI-master
+laptop_baseline/ARC-AGI-master/

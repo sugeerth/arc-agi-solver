@@ -1,0 +1,230 @@
+{
+  "model": "Qwen/Qwen2.5-3B-Instruct",
+  "n": 20,
+  "correct": 0,
+  "accuracy": 0.0,
+  "total_secs": 577.9,
+  "results": [
+    {
+      "task": "00576224",
+      "correct": false,
+      "pred_shape": [
+        2,
+        6
+      ],
+      "truth_shape": [
+        6,
+        6
+      ],
+      "secs": 2.12
+    },
+    {
+      "task": "009d5c81",
+      "correct": false,
+      "pred_shape": null,
+      "truth_shape": [
+        14,
+        14
+      ],
+      "secs": 43.36
+    },
+    {
+      "task": "00dbd492",
+      "correct": false,
+      "pred_shape": null,
+      "truth_shape": [
+        20,
+        20
+      ],
+      "secs": 36.94
+    },
+    {
+      "task": "03560426",
+      "correct": false,
+      "pred_shape": [
+        10,
+        10
+      ],
+      "truth_shape": [
+        10,
+        10
+      ],
+      "secs": 22.88
+    },
+    {
+      "task": "05a7bcf2",
+      "correct": false,
+      "pred_shape": null,
+      "truth_shape": [
+        30,
+        30
+      ],
+      "secs": 41.53
+    },
+    {
+      "task": "0607ce86",
+      "correct": false,
+      "pred_shape": null,
+      "truth_shape": [
+        24,
+        22
+      ],
+      "secs": 41.94
+    },
+    {
+      "task": "0692e18c",
+      "correct": false,
+      "pred_shape": [
+        3,
+        9
+      ],
+      "truth_shape": [
+        9,
+        9
+      ],
+      "secs": 5.7
+    },
+    {
+      "task": "070dd51e",
+      "correct": false,
+      "pred_shape": null,
+      "truth_shape": [
+        20,
+        20
+      ],
+      "secs": 30.35
+    },
+    {
+      "task": "08573cc6",
+      "correct": false,
+      "pred_shape": null,
+      "truth_shape": [
+        13,
+        13
+      ],
+      "secs": 33.62
+    },
+    {
+      "task": "0934a4d8",
+      "correct": false,
+      "pred_shape": null,
+      "truth_shape": [
+        9,
+        3
+      ],
+      "secs": 41.35
+    },
+    {
+      "task": "09c534e7",
+      "correct": false,
+      "pred_shape": null,
+      "truth_shape": [
+        30,
+        30
+      ],
+      "secs": 41.11
+    },
+    {
+      "task": "0a1d4ef5",
+      "correct": false,
+      "pred_shape": null,
+      "truth_shape": [
+        4,
+        3
+      ],
+      "secs": 41.78
+    },
+    {
+      "task": "0a2355a6",
+      "correct": false,
+      "pred_shape": null,
+      "truth_shape": [
+        15,
+        17
+      ],
+      "secs": 42.92
+    },
+    {
+      "task": "0b17323b",
+      "correct": false,
+      "pred_shape": null,
+      "truth_shape": [
+        15,
+        15
+      ],
+      "secs": 39.51
+    },
+    {
+      "task": "0bb8deee",
+      "correct": false,
+      "pred_shape": [
+        5,
+        6
+      ],
+      "truth_shape": [
+        6,
+        6
+      ],
+      "secs": 10.77
+    },
+    {
+      "task": "0becf7df",
+      "correct": false,
+      "pred_shape": [
+        10,
+        10
+      ],
+      "truth_shape": [
+        10,
+        10
+      ],
+      "secs": 25.59
+    },
+    {
+      "task": "0c786b71",
+      "correct": false,
+      "pred_shape": [
+        3,
+        8
+      ],
+      "truth_shape": [
+        6,
+        8
+      ],
+      "secs": 6.94
+    },
+    {
+      "task": "0c9aba6e",
+      "correct": false,
+      "pred_shape": [
+        12,
+        4
+      ],
+      "truth_shape": [
+        6,
+        4
+      ],
+      "secs": 13.21
+    },
+    {
+      "task": "0d87d2a6",
+      "correct": false,
+      "pred_shape": null,
+      "truth_shape": [
+        23,
+        25
+      ],
+      "secs": 20.47
+    },
+    {
+      "task": "0e671a1a",
+      "correct": false,
+      "pred_shape": null,
+      "truth_shape": [
+        13,
+        13
+      ],
+      "secs": 35.62
+    }
+  ]
+}

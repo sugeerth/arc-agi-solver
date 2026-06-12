@@ -1,0 +1,12 @@
+device=mps model=Qwen/Qwen2.5-3B-Instruct n=5 max_tries=3
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:02<00:02,  2.48s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.80s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.90s/it]
+loaded in 4.9s
+tasks: 5
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[  1/5] 00576224  status=failed_train     correct=0  attempts=3   19.6s  acc=0.0% train-pass=0/1
+[  2/5] 009d5c81  status=failed_train     correct=0  attempts=3  208.5s  acc=0.0% train-pass=0/2
+[  3/5] 00dbd492  status=failed_train     correct=0  attempts=3   52.6s  acc=0.0% train-pass=0/3
+[  4/5] 03560426  status=no_code          correct=0  attempts=3  14907.1s  acc=0.0% train-pass=0/4
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

@@ -1,0 +1,29 @@
+device=mps  dtype=torch.float16  model=Qwen/Qwen2.5-3B-Instruct  n=20
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:02<00:02,  2.54s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.83s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.93s/it]
+loaded in 5.0s
+eval tasks: 20
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[  1/20] 00576224  ok=0    2.1s  acc=0.0%
+[  2/20] 009d5c81  ok=0   43.4s  acc=0.0%
+[  3/20] 00dbd492  ok=0   36.9s  acc=0.0%
+[  4/20] 03560426  ok=0   22.9s  acc=0.0%
+[  5/20] 05a7bcf2  ok=0   41.5s  acc=0.0%
+[  6/20] 0607ce86  ok=0   41.9s  acc=0.0%
+[  7/20] 0692e18c  ok=0    5.7s  acc=0.0%
+[  8/20] 070dd51e  ok=0   30.3s  acc=0.0%
+[  9/20] 08573cc6  ok=0   33.6s  acc=0.0%
+[ 10/20] 0934a4d8  ok=0   41.3s  acc=0.0%
+[ 11/20] 09c534e7  ok=0   41.1s  acc=0.0%
+[ 12/20] 0a1d4ef5  ok=0   41.8s  acc=0.0%
+[ 13/20] 0a2355a6  ok=0   42.9s  acc=0.0%
+[ 14/20] 0b17323b  ok=0   39.5s  acc=0.0%
+[ 15/20] 0bb8deee  ok=0   10.8s  acc=0.0%
+[ 16/20] 0becf7df  ok=0   25.6s  acc=0.0%
+[ 17/20] 0c786b71  ok=0    6.9s  acc=0.0%
+[ 18/20] 0c9aba6e  ok=0   13.2s  acc=0.0%
+[ 19/20] 0d87d2a6  ok=0   20.5s  acc=0.0%
+[ 20/20] 0e671a1a  ok=0   35.6s  acc=0.0%
+
+FINAL: 0/20 = 0.0%  (578s, 28.9s/task)
+Results written to results_3b_50.json
