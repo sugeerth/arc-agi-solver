@@ -5,7 +5,7 @@ reports vs deterministic baseline.
 
 Workflow:
   1. agent_framework.py curate       → writes chunks/chunk_{0..3}.json
-  2. (subagents are spawned via the Agent tool — see /Users/fullfocus/arc-agi/
+  2. (subagents are spawned via the Agent tool — see
      laptop_baseline/AGENT_INSTRUCTIONS.md)
   3. Each agent writes solutions to outputs/agent_{i}.json
   4. agent_framework.py verify       → reads outputs/*.json, verifies, dumps results

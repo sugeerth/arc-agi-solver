@@ -1,5 +1,5 @@
 """
-Build /Users/fullfocus/arc-agi/humaneval_final.ipynb — single Colab notebook
+Build humaneval_final.ipynb — single Colab notebook
 that runs Qwen2.5-Coder-7B-Instruct on HumanEval (Python code generation),
 executes the generated code against unit tests, and renders an inline dashboard
 with the actual code shown for sample passes and failures.

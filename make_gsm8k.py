@@ -1,5 +1,5 @@
 """
-Build /Users/fullfocus/arc-agi/gsm8k_final.ipynb — single Colab notebook that
+Build gsm8k_final.ipynb — single Colab notebook that
 runs Qwen2.5-7B-Instruct on GSM8K (math word problems) with chain-of-thought
 prompting + self-consistency voting, then renders an inline dashboard.
 
