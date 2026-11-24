@@ -1,7 +1,7 @@
 """
 Build a single self-contained ARC-AGI notebook for Colab H100.
 
-Output: /Users/fullfocus/arc-agi/arc_kiss.ipynb
+Output: arc_kiss.ipynb
 
 Pipeline: download data -> SFT QLoRA on Qwen3-8B -> eval full ARC-AGI public eval
           -> write submission.json + bundle. End to end ~5-6h on H100 80GB.

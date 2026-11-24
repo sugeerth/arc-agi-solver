@@ -1,5 +1,5 @@
 """
-Build /Users/fullfocus/arc-agi/arc_final.ipynb — the single Colab notebook.
+Build arc_final.ipynb — the single Colab notebook.
 
 What's in it (top to bottom):
   1-11. Inference pipeline: load Qwen2.5-7B 4-bit, eval on full ARC-AGI public set,
