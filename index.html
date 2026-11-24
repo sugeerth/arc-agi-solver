@@ -136,7 +136,8 @@ details summary{cursor:pointer;font-size:14px;color:var(--muted);margin:10px 0 6
 .pal-row{display:flex;flex-wrap:wrap;gap:6px}
 .block{border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:8px;padding:6px 9px;font:600 12.5px/1.2 system-ui,sans-serif;cursor:grab;user-select:none}
 .block:active{cursor:grabbing}
-.block.model{border-left:4px solid var(--accent)}
+.block.model{border-left:4px solid var(--idle)}
+.block.model.free{border-left-color:var(--accent)}
 .block.step{border-left:4px solid var(--verify)}
 .block:disabled{opacity:.45;cursor:not-allowed}
 .dropzone{border:2px dashed var(--line);border-radius:12px;padding:10px;margin:8px 0;transition:border-color .15s,background .15s}
@@ -163,7 +164,7 @@ details summary{cursor:pointer;font-size:14px;color:var(--muted);margin:10px 0 6
     <div class="hero-row">
       <div class="stat"><b>22 / 23</b><span>attempted tasks solved</span></div>
       <div class="stat"><b>0 / 10</b><span>zero-shot Qwen2.5-1.5B</span></div>
-      <a class="btn" href="#run">Run it on an unseen task</a>
+      <a class="btn" href="#run">Run it free on an unseen task</a>
       <a class="btn ghost" href="#demo">Browse the 24 tasks</a>
       <a class="btn ghost" href="https://github.com/sugeerth/arc-agi-solver" target="_blank" rel="noopener">Code on GitHub</a>
     </div>
@@ -174,7 +175,7 @@ details summary{cursor:pointer;font-size:14px;color:var(--muted);margin:10px 0 6
 <section id="run">
   <div class="wrap">
     <h2>Run the orchestrator yourself</h2>
-    <p class="note">Pick a task the original agents never saw, choose a model for each agent, and run the same loop live. Agents write programs in parallel; a sandboxed verifier checks each one against the examples; failures go back to that agent as feedback; the hidden test answer decides at the end. The agents never see the test answer.</p>
+    <p class="note"><b>Free by default:</b> the agents run an open model (Qwen2.5-Coder) inside your browser, so there’s no key and no cost. Pick a task the original agents never saw, build the harness, and run the same loop live. Agents write programs in parallel; a sandboxed verifier checks each one against the examples; failures go back to that agent as feedback; the hidden test answer decides at the end. The agents never see the test answer.</p>
     <div class="run-grid">
       <div class="box">
         <h3>1 · Task</h3>
@@ -212,9 +213,20 @@ details summary{cursor:pointer;font-size:14px;color:var(--muted);margin:10px 0 6
         <select id="effort"><option value="low">low</option><option value="medium" selected>medium</option><option value="high">high</option></select>
 
         <h3>3 · Run</h3>
-        <label class="f" for="key">Your Anthropic API key</label>
-        <input class="text" id="key" type="password" placeholder="sk-ant-…" autocomplete="off" spellcheck="false">
-        <p class="fine">Calls are billed to your key and go straight from this tab to api.anthropic.com. This page has no server and doesn’t store the key. Use a key with a spend limit; the estimated cost updates live.</p>
+        <p class="fine" id="webllm-note"><b>Free.</b> In-browser agents run Qwen2.5-Coder on your GPU through WebGPU (desktop Chrome or Edge). The first run downloads the model once (about 1 GB for 1.5B); after that it loads from the browser cache. Nothing leaves your machine.</p>
+        <div id="local-wrap" hidden>
+          <label class="f" for="local-url">Local server URL (free)</label>
+          <input class="text" id="local-url" value="http://127.0.0.1:8080" spellcheck="false">
+          <label class="f" for="local-model">Model name</label>
+          <input class="text" id="local-model" value="mlx-community/Qwen2.5-Coder-7B-Instruct-4bit" spellcheck="false">
+          <p class="fine">Mac: <code>pip install mlx-lm</code> then <code>mlx_lm.server --model mlx-community/Qwen2.5-Coder-7B-Instruct-4bit</code>. Ollama: <code>OLLAMA_ORIGINS=* ollama serve</code>, URL <code>http://127.0.0.1:11434</code>, model <code>qwen2.5-coder:7b</code>. Chrome may ask to allow local network access.</p>
+        </div>
+        <label class="fine"><input type="checkbox" id="show-paid"> Also show paid Claude models (needs your own API key)</label>
+        <div id="key-wrap" hidden>
+          <label class="f" for="key">Your Anthropic API key (only for Claude agents)</label>
+          <input class="text" id="key" type="password" placeholder="sk-ant-…" autocomplete="off" spellcheck="false">
+          <p class="fine">Billed to your key; calls go straight from this tab to api.anthropic.com. The page has no server and doesn’t store the key.</p>
+        </div>
         <div class="btn-row"><button class="btn" id="go" type="button">&#9654; Run orchestrator</button><button class="btn danger" id="stop" type="button" hidden>Stop</button></div>
       </div>
 
@@ -588,15 +600,22 @@ async function rerun(){
 }
 
 /* ---------- orchestrator ---------- */
+const WEBLLM_URL = "https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.89/+esm";
 const MODELS = [
-  { id: "claude-opus-5-5",   name: "Claude Opus 5.5",   pin: 4.00, pout: 20.00, fallbacks: true },
-  { id: "claude-sonnet-5-5", name: "Claude Sonnet 5.5", pin: 2.00, pout: 10.00, fallbacks: true },
-  { id: "claude-haiku-5-5",  name: "Claude Haiku 5.5",  pin: 0.10, pout: 0.50,  fallbacks: false },
-  { id: "claude-fable-5-2",  name: "Claude Fable 5.2",  pin: 8.00, pout: 40.00, fallbacks: true },
+  { id: "webllm:Qwen2.5-Coder-1.5B-Instruct-q4f16_1-MLC", name: "Qwen2.5-Coder 1.5B · in browser", short: "Qwen 1.5B (browser)", provider: "webllm", free: true, note: "free · ~1 GB download, WebGPU" },
+  { id: "webllm:Qwen2.5-Coder-3B-Instruct-q4f16_1-MLC",   name: "Qwen2.5-Coder 3B · in browser",   short: "Qwen 3B (browser)",   provider: "webllm", free: true, note: "free · ~2 GB download, WebGPU" },
+  { id: "webllm:Qwen2.5-Coder-7B-Instruct-q4f16_1-MLC",   name: "Qwen2.5-Coder 7B · in browser",   short: "Qwen 7B (browser)",   provider: "webllm", free: true, note: "free · ~4.5 GB download, WebGPU" },
+  { id: "local",             name: "Your local server",  short: "Local server", provider: "local", free: true, note: "free · mlx-lm or Ollama on your machine" },
+  { id: "claude-opus-5-5",   name: "Claude Opus 5.5",   short: "Opus 5.5",   provider: "anthropic", pin: 4.00, pout: 20.00, fallbacks: true },
+  { id: "claude-sonnet-5-5", name: "Claude Sonnet 5.5", short: "Sonnet 5.5", provider: "anthropic", pin: 2.00, pout: 10.00, fallbacks: true },
+  { id: "claude-haiku-5-5",  name: "Claude Haiku 5.5",  short: "Haiku 5.5",  provider: "anthropic", pin: 0.10, pout: 0.50,  fallbacks: false },
+  { id: "claude-fable-5-2",  name: "Claude Fable 5.2",  short: "Fable 5.2",  provider: "anthropic", pin: 8.00, pout: 40.00, fallbacks: true },
 ];
 const modelById = id => MODELS.find(m => m.id === id);
+const priceLabel = m => m.free ? m.note : `$${m.pin}/$${m.pout} per M tokens`;
 const MAX_AGENTS = 6;
-let agentsCfg = [{ model: "claude-opus-5-5" }, { model: "claude-sonnet-5-5" }, { model: "claude-haiku-5-5" }];
+const FREE_DEFAULT = "webllm:Qwen2.5-Coder-1.5B-Instruct-q4f16_1-MLC";
+let agentsCfg = [{ model: FREE_DEFAULT }, { model: FREE_DEFAULT }, { model: FREE_DEFAULT }, { model: FREE_DEFAULT }];
 let tryTask = null;
 let run = null;
 
@@ -733,7 +752,7 @@ const STEPS = {
   share:    { name: "Share passing rule", desc: "Once any agent passes every example, failing agents get its rule description as a hint." },
   vote:     { name: "Top-2 vote", desc: "Score like the ARC Prize: only the two most-agreed test predictions count (pass@2)." },
 };
-const harness = { feedback: { attempts: 2, detail: "all" }, share: null, vote: null };
+const harness = { feedback: { attempts: 2, detail: "all" }, share: null, vote: {} };
 let dragging = null;
 
 function addBlock(kind, id){
@@ -750,10 +769,10 @@ function addBlock(kind, id){
 function renderPalette(){
   const pm = document.getElementById("pal-models"), ps = document.getElementById("pal-steps");
   pm.replaceChildren(); ps.replaceChildren();
-  for (const m of MODELS){
-    const b = el("button", "block model", m.name.replace("Claude ", ""));
+  for (const m of visibleModels()){
+    const b = el("button", "block model" + (m.free ? " free" : ""), m.short);
     b.type = "button"; b.draggable = true; b.dataset.kind = "model"; b.dataset.id = m.id;
-    b.title = `${m.name} · $${m.pin} in / $${m.pout} out per million tokens. Drag into Agents, or click to add.`;
+    b.title = `${m.name} · ${priceLabel(m)}. Drag into Agents, or click to add.`;
     b.disabled = agentsCfg.length >= MAX_AGENTS;
     pm.append(b);
   }
@@ -779,9 +798,9 @@ function renderAgents(){
     row.append(el("span", null, `Agent ${i+1}`));
     const s = document.createElement("select");
     s.setAttribute("aria-label", `Model for agent ${i+1}`);
-    for (const m of MODELS){ const o = document.createElement("option"); o.value = m.id; o.textContent = `${m.name} · $${m.pin}/$${m.pout} per M`; s.append(o); }
+    for (const m of visibleModels(a.model)){ const o = document.createElement("option"); o.value = m.id; o.textContent = `${m.name} · ${priceLabel(m)}`; s.append(o); }
     s.value = a.model;
-    s.addEventListener("change", () => { a.model = s.value; });
+    s.addEventListener("change", () => { a.model = s.value; renderBuilder(); });
     const rm = el("button", "btn small quiet", "✕");
     rm.type = "button"; rm.title = `Remove agent ${i+1}`; rm.setAttribute("aria-label", `Remove agent ${i+1}`);
     rm.disabled = agentsCfg.length === 1;
@@ -838,8 +857,18 @@ function renderSteps(){
   }
 }
 
+let showPaid = false;
+function visibleModels(keep){ return MODELS.filter(m => m.free || showPaid || m.id === keep); }
+
+function renderProviders(){
+  const used = new Set(agentsCfg.map(a => modelById(a.model).provider));
+  document.getElementById("local-wrap").hidden = !used.has("local");
+  document.getElementById("key-wrap").hidden = !used.has("anthropic");
+  document.getElementById("webllm-note").hidden = !used.has("webllm");
+}
+
 function renderBuilder(){
-  renderPalette(); renderAgents(); renderSteps();
+  renderPalette(); renderAgents(); renderSteps(); renderProviders();
   if (!run || !run.active) renderPipe();
 }
 
@@ -860,7 +889,7 @@ const fmtTok = n => n >= 1000 ? (n / 1000).toFixed(1) + "k" : String(n);
 const fmtUsd = x => x < 0.01 ? "$" + x.toFixed(4) : "$" + x.toFixed(2);
 const secs = ms => (ms / 1000).toFixed(1) + " s";
 
-function laneCost(l){ const m = modelById(l.model); return (l.inTok * m.pin + l.outTok * m.pout) / 1e6; }
+function laneCost(l){ const m = modelById(l.model); return m.free ? 0 : (l.inTok * m.pin + l.outTok * m.pout) / 1e6; }
 
 function log(msg){
   if (!run) return;
@@ -924,14 +953,14 @@ function renderInfra(){
     }
     lane.append(tl);
     const marks = l.attempts.map(a => a.ok ? "✓" : "✗").join(" ") || "–";
-    lane.append(el("div", "lane-stats", `attempts ${marks} · ${l.calls} call${l.calls === 1 ? "" : "s"} · in ${fmtTok(l.inTok)} · out ${fmtTok(l.outTok)}${l.streamChars ? ` · streaming ${fmtTok(l.streamChars)} chars` : ""} · ${secs((l.tEnd ?? now) - run.t0)} · est. ${fmtUsd(laneCost(l))}`));
+    lane.append(el("div", "lane-stats", `attempts ${marks} · ${l.calls} call${l.calls === 1 ? "" : "s"} · in ${fmtTok(l.inTok)} · out ${fmtTok(l.outTok)}${l.streamChars ? ` · streaming ${fmtTok(l.streamChars)} chars` : ""} · ${secs((l.tEnd ?? now) - run.t0)} · ${modelById(l.model).free ? "free" : "est. " + fmtUsd(laneCost(l))}`));
     box.append(lane);
   }
   const tin = run.lanes.reduce((s, l) => s + l.inTok, 0), tout = run.lanes.reduce((s, l) => s + l.outTok, 0);
   const cost = run.lanes.reduce((s, l) => s + laneCost(l), 0), calls = run.lanes.reduce((s, l) => s + l.calls, 0);
   const tot = document.getElementById("totals");
   tot.replaceChildren();
-  [[secs(now - run.t0), "wall time"], [String(calls), "model calls"], [fmtTok(tin), "input tokens"], [fmtTok(tout), "output tokens (incl. thinking)"], [fmtUsd(cost), "est. cost"], [String(verifier.runs - run.verifierRuns0), "verifier runs"]]
+  [[secs(now - run.t0), "wall time"], [String(calls), "model calls"], [fmtTok(tin), "input tokens"], [fmtTok(tout), "output tokens"], [cost === 0 ? "$0 · free" : fmtUsd(cost), "est. cost"], [String(verifier.runs - run.verifierRuns0), "verifier runs"]]
     .forEach(([b, s]) => { const d = el("div"); d.append(el("b", null, b), el("span", null, s)); tot.append(d); });
   const lg = document.getElementById("log");
   lg.textContent = run.log.join("\n") || "(starting)";
@@ -950,8 +979,59 @@ function describeError(e, A){
   return String(e && e.message || e);
 }
 
+/* ---- free providers: WebLLM (WebGPU, in this tab) and a local OpenAI-style server (mlx-lm / Ollama) ---- */
+const webllmEngines = {};
+let webllmQueue = Promise.resolve();
+function freeTemp(){ return run.lanes.length > 1 ? 0.8 : 0.0; }
+function asChat(messages){ return [{ role: "system", content: SYSTEM_PROMPT }, ...messages.map(m => ({ role: m.role, content: typeof m.content === "string" ? m.content : m.content.filter(b => b.type === "text").map(b => b.text).join("\n") }))]; }
+function asMessage(model, text, usage, finish){ return { model, stop_reason: finish === "length" ? "max_tokens" : "end_turn", usage: { input_tokens: usage?.prompt_tokens || 0, output_tokens: usage?.completion_tokens || 0 }, content: [{ type: "text", text }] }; }
+
+async function webllmEngine(modelId, lane){
+  if (!webllmEngines[modelId]){
+    webllmEngines[modelId] = (async () => {
+      if (!navigator.gpu) throw new Error("this browser has no WebGPU: use desktop Chrome or Edge, or pick another model");
+      log(`WebLLM: loading ${modelId} into this tab (first time downloads the weights; later runs use the browser cache)`);
+      const webllm = await import(WEBLLM_URL);
+      return webllm.CreateMLCEngine(modelId, { initProgressCallback: p => { run.webllmProgress = p.text; for (const l of run.lanes) if (l.model === "webllm:" + modelId && !l.done) l.statusText = "loading model · " + Math.round((p.progress || 0) * 100) + "%"; } }, { context_window_size: 8192 });
+    })();
+    webllmEngines[modelId].catch(() => { delete webllmEngines[modelId]; });
+  }
+  return webllmEngines[modelId];
+}
+
+async function callWebLLM(lane, messages){
+  const modelId = lane.model.slice("webllm:".length);
+  const engine = await webllmEngine(modelId, lane);
+  // One GPU: run generations one at a time, in arrival order.
+  const job = webllmQueue.then(async () => {
+    if (run.stopped) throw new Error("stopped");
+    lane.statusText = `generating · attempt ${lane.attempt}`;
+    const r = await engine.chat.completions.create({ messages: asChat(messages), temperature: freeTemp(), max_tokens: 1536 });
+    return asMessage(modelId, r.choices[0].message.content || "", r.usage, r.choices[0].finish_reason);
+  });
+  webllmQueue = job.catch(() => {});
+  return job;
+}
+
+async function callLocal(lane, messages){
+  const base = document.getElementById("local-url").value.trim().replace(/\/+$/, "");
+  const model = document.getElementById("local-model").value.trim();
+  let r;
+  try{
+    r = await fetch(base + "/v1/chat/completions", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ model, messages: asChat(messages), temperature: freeTemp(), max_tokens: 1536, stream: false }) });
+  } catch (e){
+    throw new Error(`can’t reach your local server at ${base}. Is it running? Chrome may ask you to allow local network access.`);
+  }
+  if (!r.ok) throw new Error(`local server returned HTTP ${r.status}: ${(await r.text()).slice(0, 200)}`);
+  const d = await r.json();
+  return asMessage(d.model || model, d.choices[0].message.content || "", d.usage, d.choices[0].finish_reason);
+}
+
 async function callModel(client, lane, effort, messages){
   const m = modelById(lane.model);
+  if (m.provider === "webllm") return callWebLLM(lane, messages);
+  if (m.provider === "local") return callLocal(lane, messages);
   const params = { model: m.id, max_tokens: 32000, system: SYSTEM_PROMPT, messages, output_config: { effort } };
   const useFb = m.fallbacks && !lane.noFallbacks;
   const stream = useFb
@@ -1003,8 +1083,8 @@ async function agentLoop(client, A, lane, effort, maxAttempts){
     lane.outTok += msg.usage?.output_tokens || 0;
     log(`agent ${lane.n} ← ${msg.model || lane.model} · ${msg.stop_reason} · in ${msg.usage?.input_tokens ?? "?"} / out ${msg.usage?.output_tokens ?? "?"} tokens · ${secs(seg.t1 - seg.t0)}`);
     if (msg.stop_reason === "refusal"){ lane.status = "declined"; lane.statusText = "model declined"; break; }
-    messages.push({ role: "assistant", content: msg.content });
     const text = msg.content.filter(b => b.type === "text").map(b => b.text).join("\n");
+    messages.push({ role: "assistant", content: modelById(lane.model).provider === "anthropic" ? msg.content : text });
     const code = extractCode(text);
     if (!code){
       lane.attempts.push({ ok: false, note: msg.stop_reason === "max_tokens" ? "ran out of tokens" : "no code block" });
@@ -1097,7 +1177,8 @@ function renderResult(){
 async function runOrchestrator(){
   const key = document.getElementById("key").value.trim();
   if (!tryTask) return;
-  if (!key){ document.getElementById("key").focus(); alert("Paste your Anthropic API key first. It stays in this tab."); return; }
+  const needsKey = agentsCfg.some(a => modelById(a.model).provider === "anthropic");
+  if (needsKey && !key){ document.getElementById("key").focus(); alert("Paid Claude agents need your Anthropic API key (it stays in this tab). Or switch those agents to a free model."); return; }
   const effort = document.getElementById("effort").value;
   const cfg = { attempts: harness.feedback ? harness.feedback.attempts : 1, detail: harness.feedback ? harness.feedback.detail : "first", share: !!harness.share, vote: !!harness.vote };
   const maxAttempts = cfg.attempts;
@@ -1113,9 +1194,12 @@ async function runOrchestrator(){
   let A = null;
   try{
     verifier.start().catch(e => log("verifier failed to boot: " + e.message));
-    log("loading the Anthropic SDK");
-    A = (await import(SDK_URL)).default;
-    const client = new A({ apiKey: key, dangerouslyAllowBrowser: true });
+    let client = null;
+    if (needsKey){
+      log("loading the Anthropic SDK for the paid Claude agents");
+      A = (await import(SDK_URL)).default;
+      client = new A({ apiKey: key, dangerouslyAllowBrowser: true });
+    }
     await Promise.all(run.lanes.map(l => agentLoop(client, A, l, effort, maxAttempts)));
   } catch (e){
     log("run failed: " + describeError(e, A));
@@ -1154,6 +1238,7 @@ document.getElementById("src").addEventListener("change", e => {
 document.getElementById("load").addEventListener("click", loadTask);
 document.getElementById("go").addEventListener("click", runOrchestrator);
 document.getElementById("stop").addEventListener("click", stopRun);
+document.getElementById("show-paid").addEventListener("change", e => { showPaid = e.target.checked; renderBuilder(); });
 verifier.onchange = () => { if (!run || !run.active) renderPipe(); };
 wireDropzones();
 renderBuilder();
